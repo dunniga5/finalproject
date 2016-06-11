@@ -1,0 +1,38 @@
+<div class="page-header">
+  <h1>
+    Recipe items
+    <a href="/recipe_items/new" class="btn btn-lg btn-success">New Recipe item</a>
+  </h1>
+</div>
+
+<div class="row">
+  <div class="col-md-12">
+    <table class="table table-striped table-hover">
+      <tr>
+    
+        <th>Quantity</th>
+        <th>Unit</th>
+        <th>Note</th>
+        <th>Ingredient</th>
+        <th>Recipe</th>
+        <th>Actions</th>
+      </tr>
+
+      <% @recipe_items.each do |recipe_item| %>
+      <tr>
+
+        <td><%= recipe_item.quantity %></td>
+        <td><%= recipe_item.unit %></td>
+        <td><%= recipe_item.note %></td>
+        <td><%= recipe_item.ingredient_id %></td>
+        <td><%= recipe_item.recipe_id %></td>
+        <td>
+          <a href="/recipe_items/<%= recipe_item.id %>" class="btn btn-primary">Show</a>
+          <a href="/recipe_items/<%= recipe_item.id %>/edit" class="btn btn-warning">Edit</a>
+          <a href="/delete_recipe_item/<%= recipe_item.id %>" class="btn btn-danger" rel="nofollow">Delete</a>
+        </td>
+      </tr>
+      <% end %>
+    </table>
+  </div>
+</div>

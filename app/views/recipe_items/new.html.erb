@@ -1,0 +1,73 @@
+<!-- Validation failure messages -->
+<% if @recipe_item.errors.any? %>
+  <% @recipe_item.errors.full_messages.each do |message| %>
+    <div class="alert alert-dismissable alert-danger">
+      <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+      <%= message %>
+    </div>
+  <% end %>
+<% end %>
+
+<div class="page-header">
+  <h3>Add Recipe Item</h3>
+</div>
+
+<div class="row">
+  <div class="col-md-12">
+    <form action="/create_recipe_item" method="post">
+      <!-- Hidden input for authenticity token to protect from forgery -->
+      <input name="authenticity_token" type="hidden" value="<%= form_authenticity_token %>">
+
+
+
+      <!-- Label and input for quantity -->
+      <div class="form-group">
+        <label for="quantity" class="control-label">
+          Quantity
+        </label>
+
+        <input type="text" id="quantity" name="quantity" placeholder="Quantity" class="form-control" value="<%= @recipe_item.quantity %>">
+      </div>
+
+      <!-- Label and input for unit -->
+      <div class="form-group">
+        <label for="unit" class="control-label">
+          Unit
+        </label>
+
+        <input type="text" id="unit" name="unit" placeholder="Unit" class="form-control" value="<%= @recipe_item.unit %>">
+      </div>
+
+      <!-- Label and input for note -->
+      <div class="form-group">
+        <label for="note" class="control-label">
+          Note
+        </label>
+
+        <input type="text" id="note" name="note" placeholder="Note" class="form-control" value="<%= @recipe_item.note %>">
+      </div>
+
+      <!-- Label and input for ingredient_id -->
+      <div class="form-group">
+            <label for="ingredient_id" class="control-label">
+              Ingredient
+            </label>
+
+            <%= select_tag(:ingredient_id, options_from_collection_for_select(Ingredient.order("name ASC"), :id, :name, @recipe_item.ingredient_id), :class => "form-control") %>
+
+            <p class="help-block">
+              <a href="/ingredients/new">or add a new ingredient</a>
+            </p>
+          </div>
+
+      <!-- Hidden input for recipe_id -->
+    <input type="hidden" name="recipe_id" value="<%= @recipe_item.recipe_id %>">
+
+      <button class="btn btn-success">
+        Create Recipe Item
+      </button>
+      or
+      <a href="/recipe_items">Cancel</a>
+    </form>
+  </div>
+</div>

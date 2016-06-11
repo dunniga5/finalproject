@@ -1,0 +1,127 @@
+<div class="page-header">
+  <h3><%= @recipe.name %></h3>
+</div>
+
+<div class="row">
+  <div class="col-md-12">
+    <dl class="dl-horizontal">
+      <dt>Image</dt>
+      <dd><img src="<%= @recipe.image %>" height=100px></dd>
+
+      <dt>Description</dt>
+      <dd><%= @recipe.description %></dd>
+
+      <dt>Instructions</dt>
+      <dd><%= @recipe.instructions %></dd>
+
+
+    </dl>
+
+    <div class="btn-group btn-group-justified">
+      <a href="/recipes" class="btn btn-primary">
+        Back
+      </a>
+      <a href="/recipes/<%= @recipe.id %>/edit" class="btn btn-warning">
+        Edit
+      </a>
+      <a href="/delete_recipe/<%= @recipe.id %>" class="btn btn-danger" rel="nofollow">
+        Delete
+      </a>
+    </div>
+  </div>
+</div>
+
+<!-- Validation failure messages -->
+<!-- <% if @recipe_item.errors.any? %>
+<% @recipe_item.errors.full_messages.each do |message| %>
+<div class="alert alert-dismissable alert-danger">
+<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+<%= message %>
+</div>
+<% end %>
+<% end %> -->
+<table class="table">
+  <thead>Ingredients</thead>
+  <th>Quantity</th>
+  <th>Unit</th>
+  <th>Ingredient</th>
+  <th>Note</th>
+  <th>
+    Delete
+  </th>
+  <% @recipe.recipe_items.each do |item| %>
+  <tr>
+    <td><%= item.quantity %></td>
+    <td><%= item.unit %></td>
+    <td><%= item.ingredient.name %></td>
+    <td><%= item.note %></td>
+    <td>
+
+      <a href="/delete_recipe_item/<%= item.id %>" class="btn btn-danger" rel="nofollow">Delete</a>
+    </td>
+  </tr>
+  <% end %>
+</table>
+<div class="page-header">
+  <h3>Add Recipe Item</h3>
+</div>
+
+<div class="row">
+  <div class="col-md-12">
+    <form action="/create_recipe_item" method="post">
+      <!-- Hidden input for authenticity token to protect from forgery -->
+      <input name="authenticity_token" type="hidden" value="<%= form_authenticity_token %>">
+
+
+
+      <!-- Label and input for quantity -->
+      <div class="form-group">
+        <label for="quantity" class="control-label">
+          Quantity
+        </label>
+
+        <input type="text" id="quantity" name="quantity" placeholder="Quantity" class="form-control">
+      </div>
+
+      <!-- Label and input for unit -->
+      <div class="form-group">
+        <label for="unit" class="control-label">
+          Unit
+        </label>
+
+        <input type="text" id="unit" name="unit" placeholder="Unit" class="form-control">
+      </div>
+      <!-- Label and input for ingredient_id -->
+      <div class="form-group">
+        <label for="ingredient_id" class="control-label">
+          Ingredient
+        </label>
+
+        <%= select_tag(:ingredient_id, options_from_collection_for_select(Ingredient.order("name ASC"), :id, :name, @recipe_item.ingredient_id), :class => "form-control") %>
+
+        <p class="help-block">
+          <a href="/ingredients/new">or add a new ingredient</a>
+        </p>
+      </div>
+
+      <!-- Label and input for note -->
+      <div class="form-group">
+        <label for="note" class="control-label">
+          Note
+        </label>
+
+        <input type="text" id="note" name="note" placeholder="Note" class="form-control">
+      </div>
+
+
+      <!-- Hidden input for recipe_id -->
+      <input type="hidden" name="recipe_id" value="<%= @recipe.id %>">
+
+      <button class="btn btn-success">
+        Create Recipe Item
+      </button>
+      or
+      <a href="/recipe_items">Cancel</a>
+    </form>
+  </div>
+</div>
